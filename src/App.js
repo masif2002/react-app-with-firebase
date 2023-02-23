@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 
-import { app } from './firebaseConfig.js'
+// import { app, db } from './firebaseConfig.js'
 
 function App() {
   return (

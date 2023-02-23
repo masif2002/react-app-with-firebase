@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from "firebase/auth";
+import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from 'firebase/firestore';
+import { db } from '../firebaseConfig';
 
 const Login = () => {
 
@@ -67,6 +69,49 @@ const Login = () => {
       });
   }
 
+  const createData = async () => {
+    await addDoc(collection(db, 'employer'), {
+      'company': 'manojNco',
+      'employee_count': 500
+    }).then((res) => {
+      console.log(res)
+    }).catch((err) => {
+      alert(err)
+    })
+  }
+  
+  const readData = async () => {
+    await getDocs(collection(db, 'employer'))
+    .then((res) => {
+      // Looping through each entry
+      res.forEach((doc) => {
+        console.log({id: doc.id, ...doc.data()});
+      });
+    })
+    .catch((err) => {
+      alert(err)
+    })
+  }
+
+  const updateData = async () => {
+    await updateDoc(doc(db, 'employer', '22JZFnohzXZEDNMIq26l'), {
+      'employee_count': '400'
+    }).then((res) => {
+      console.log(res) //undefined
+    }).catch ((err) => {
+      alert(err)
+    })
+  }
+  
+  const deleteData = async () => {
+    await deleteDoc(doc(db, 'employer', '22JZFnohzXZEDNMIq26l'))
+    .then((res) => {
+      console.log(res) //undefined
+    }).catch ((err) => {
+      alert(err)
+    })
+  }
+
   return (
     <div>
       <h1>Login</h1>
@@ -88,7 +133,7 @@ const Login = () => {
       />
 
       <button
-        onClick={handleSubmit}
+        onClick={deleteData}
       >Login</button>
 
       <h2>OR</h2>
