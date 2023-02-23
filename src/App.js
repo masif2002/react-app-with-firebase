@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Login from './components/Login';
 import SignUp from './components/SignUp';
+import Upload from './components/Upload';
 
 // import { app, db } from './firebaseConfig.js'
 
@@ -15,6 +16,7 @@ function App() {
         <Route path='/' element={<Main />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<SignUp />} />
+        <Route path='/upload' element={<Upload />} />
       </Routes>
     
     </BrowserRouter>

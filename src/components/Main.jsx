@@ -11,6 +11,10 @@ const Main = () => {
         <Link to='/login'>
             <button>Login</button>
         </Link>
+        
+        <Link to='/upload'>
+          <button>Upload</button>
+        </Link>
     </div>
 
   )
