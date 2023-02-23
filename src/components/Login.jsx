@@ -1,12 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from "firebase/auth";
-import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc, onSnapshot, query, where } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 
 const Login = () => {
 
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
+
+  // useEffect(() => {
+  //   getRealTimeData()
+  // }, [])
+  
 
   const handleSubmit = () => {
 
@@ -71,7 +76,7 @@ const Login = () => {
 
   const createData = async () => {
     await addDoc(collection(db, 'employer'), {
-      'company': 'manojNco',
+      'company': 'gowthamNco',
       'employee_count': 500
     }).then((res) => {
       console.log(res)
@@ -94,8 +99,8 @@ const Login = () => {
   }
 
   const updateData = async () => {
-    await updateDoc(doc(db, 'employer', '22JZFnohzXZEDNMIq26l'), {
-      'employee_count': '400'
+    await updateDoc(doc(db, 'employer', '6BG5HIL2xaaENIpgzBbt'), {
+      'employee_count': 400
     }).then((res) => {
       console.log(res) //undefined
     }).catch ((err) => {
@@ -109,6 +114,33 @@ const Login = () => {
       console.log(res) //undefined
     }).catch ((err) => {
       alert(err)
+    })
+  }
+
+  const getRealTimeData = () => {
+    onSnapshot(collection(db, 'employer'), (res) => {
+      res.forEach((doc) => {
+        console.log(doc.data());
+      });
+    })
+  }
+
+  const queryData = async () => {
+    const collectionRef = collection(db, 'employer')
+    const jQuery = query(collectionRef, where('employee_count', '>', 50))
+
+    await getDocs(jQuery)
+    .then((res) => {
+      // Looping through each entry
+      res.forEach((doc) => {
+        console.log({id: doc.id, ...doc.data()});
+      });
+    })
+    .catch((err) => {
+      alert(err)
+    })
+    .finally(() => {
+      console.log('Query completed ...')
     })
   }
 
@@ -133,7 +165,7 @@ const Login = () => {
       />
 
       <button
-        onClick={deleteData}
+        onClick={queryData}
       >Login</button>
 
       <h2>OR</h2>
