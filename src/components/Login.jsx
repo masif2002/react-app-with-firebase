@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, GithubAuthProvider, onAuthStateChanged, signOut } from "firebase/auth";
 import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc, onSnapshot, query, where } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 
@@ -11,11 +11,21 @@ const Login = () => {
   // useEffect(() => {
   //   getRealTimeData()
   // }, [])
-  
+
+  const auth = getAuth();
+
+  // useEffect(() => {
+  //   onAuthStateChanged(auth, (user) => {
+  //     if (user) 
+  //       alert("Logged In")
+  //     else 
+  //       alert("Not Logged In")
+  //   })
+    
+  // }, [])
 
   const handleSubmit = () => {
 
-    const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
@@ -94,7 +104,7 @@ const Login = () => {
       });
     })
     .catch((err) => {
-      alert(err)
+      alert(err.message)
     })
   }
 
@@ -144,6 +154,10 @@ const Login = () => {
     })
   }
 
+  const logOut = () => {
+    signOut(auth)
+  }
+
   return (
     <div>
       <h1>Login</h1>
@@ -165,8 +179,12 @@ const Login = () => {
       />
 
       <button
-        onClick={queryData}
+        onClick={handleSubmit}
       >Login</button>
+
+      <button
+        onClick={logOut}
+      >Logout</button>
 
       <h2>OR</h2>
 
